@@ -312,7 +312,7 @@ export function FeaturedProducts(): JSX.Element {
               </div>
               <h3 className="text-xl font-semibold text-bloom-ink mb-2">Unable to Load Products</h3>
               <p className="text-bloom-ink/60 mb-6">
-                We couldn't fetch the featured products. Please try again.
+                We couldn&apos;t fetch the featured products. Please try again.
               </p>
               <motion.button
                 whileHover={{ scale: 1.05 }}

@@ -2,6 +2,7 @@
 
 import type { JSX } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { FiArrowRight, FiGrid, FiHeart, FiAward } from "react-icons/fi";
 
@@ -187,10 +188,12 @@ export function HeroSection(): JSX.Element {
             >
               <div className="relative aspect-square rounded-3xl overflow-hidden shadow-2xl">
                 {/* Main Image */}
-                <img 
-                  src="https://images.unsplash.com/photo-1563241527-3004b7be0ffd?auto=format&fit=crop&w=800&q=80" 
+                <Image
+                  src="https://images.unsplash.com/photo-1563241527-3004b7be0ffd?auto=format&fit=crop&w=800&q=80"
                   alt="Beautiful flower bouquet"
-                  className="w-full h-full object-cover"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 40vw"
+                  className="object-cover"
                 />
                 
                 {/* Overlay Gradient */}

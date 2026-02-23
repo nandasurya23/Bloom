@@ -3,6 +3,7 @@
 import type { JSX } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import type { IconType } from "react-icons";
 import { FiHeart, FiShoppingBag, FiShoppingCart, FiMenu, FiX } from "react-icons/fi";
 import { useState } from "react";
 
@@ -73,7 +74,7 @@ export function Navbar(): JSX.Element {
 }
 
 // Desktop Nav Link Component
-function NavLink({ href, icon: Icon, text }: { href: string; icon: any; text: string }) {
+function NavLink({ href, icon: Icon, text }: { href: string; icon: IconType; text: string }) {
   return (
     <Link 
       href={href} 
@@ -87,7 +88,17 @@ function NavLink({ href, icon: Icon, text }: { href: string; icon: any; text: st
 }
 
 // Mobile Nav Link Component
-function MobileNavLink({ href, icon: Icon, text, onClick }: { href: string; icon: any; text: string; onClick: () => void }) {
+function MobileNavLink({
+  href,
+  icon: Icon,
+  text,
+  onClick
+}: {
+  href: string;
+  icon: IconType;
+  text: string;
+  onClick: () => void;
+}) {
   return (
     <Link
       href={href}

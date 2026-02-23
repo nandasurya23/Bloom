@@ -1,5 +1,6 @@
 import type { JSX } from "react";
 import Link from "next/link";
+import type { IconType } from "react-icons";
 import { FiMail, FiPhone, FiMapPin, FiClock, FiInstagram, FiFacebook, FiTwitter } from "react-icons/fi";
 
 export function Footer(): JSX.Element {
@@ -15,7 +16,7 @@ export function Footer(): JSX.Element {
               Bloom
             </h3>
             <p className="text-xs sm:text-sm text-bloom-ink/70 leading-relaxed max-w-xs mx-auto sm:mx-0">
-              Crafting elegant floral arrangements for life's special moments since 2020.
+              Crafting elegant floral arrangements for life&apos;s special moments since 2020.
             </p>
             <div className="flex items-center justify-center sm:justify-start gap-3 pt-2">
               <SocialIcon href="#" icon={FiInstagram} />
@@ -129,7 +130,7 @@ export function Footer(): JSX.Element {
 }
 
 // Social Icon Component
-function SocialIcon({ href, icon: Icon }: { href: string; icon: any }) {
+function SocialIcon({ href, icon: Icon }: { href: string; icon: IconType }) {
   return (
     <Link 
       href={href} 
