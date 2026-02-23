@@ -4,7 +4,17 @@ import type { JSX } from "react";
 import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
-import { FiCheckCircle, FiHeart, FiShoppingBag, FiAward, FiTruck, FiClock } from "react-icons/fi";
+import { 
+  FiCheckCircle, 
+  FiHeart, 
+  FiShoppingBag, 
+  FiAward, 
+  FiTruck, 
+  FiClock,
+  FiArrowRight,
+  FiStar,
+  FiTrendingUp
+} from "react-icons/fi";
 
 import { ProductCard } from "@/components/product/ProductCard";
 import { ProductGridSkeleton } from "@/components/shop/ProductGridSkeleton";
@@ -27,6 +37,7 @@ export function FeaturedProducts(): JSX.Element {
   const [cartCooldownMap, setCartCooldownMap] = useState<Record<string, boolean>>({});
   const [wishlistCooldownMap, setWishlistCooldownMap] = useState<Record<string, boolean>>({});
   const [notice, setNotice] = useState<NoticeState | null>(null);
+  const [activeTab, setActiveTab] = useState<"featured" | "popular" | "new">("featured");
 
   const addItemToCart = useCartStore((state) => state.addItem);
   const addItemToWishlist = useWishlistStore((state) => state.addItem);
@@ -135,233 +146,270 @@ export function FeaturedProducts(): JSX.Element {
   };
 
   return (
-    <section className="relative mt-16 sm:mt-20 lg:mt-24">
-      {/* Background Decoration */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-20 -right-20 h-64 w-64 rounded-full bg-bloom-rose/5 blur-3xl" />
-        <div className="absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-bloom-leaf/5 blur-3xl" />
+    <section className="relative mt-16 sm:mt-20 lg:mt-24 overflow-hidden">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(245,208,197,0.1)_0%,transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(180,210,170,0.1)_0%,transparent_50%)]" />
+        
+        {/* Floating Elements */}
+        <motion.div
+          animate={{ 
+            y: [0, -20, 0],
+            rotate: [0, 10, 0]
+          }}
+          transition={{ duration: 8, repeat: Infinity }}
+          className="absolute top-20 right-20 w-32 h-32 rounded-full bg-bloom-rose/5 blur-2xl"
+        />
+        <motion.div
+          animate={{ 
+            y: [0, 20, 0],
+            rotate: [0, -10, 0]
+          }}
+          transition={{ duration: 10, repeat: Infinity }}
+          className="absolute bottom-20 left-20 w-32 h-32 rounded-full bg-bloom-leaf/5 blur-2xl"
+        />
       </div>
 
-      {/* Section Header */}
-      <div className="relative mb-8 sm:mb-10 lg:mb-12">
-        <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
-          <div>
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <span className="inline-block rounded-full bg-bloom-rose/10 px-3 py-1 text-xs font-medium text-bloom-rose mb-3">
-                Featured Collection
-              </span>
-            </motion.div>
-            <motion.h2 
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-2xl font-semibold text-bloom-ink sm:text-3xl lg:text-4xl"
-            >
-              Featured Bouquets
-            </motion.h2>
-            <motion.p 
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="mt-2 text-sm text-bloom-ink/70 sm:text-base max-w-xl"
-            >
-              Handpicked favorites for gifting this week, crafted with love and premium blooms.
-            </motion.p>
-          </div>
-
-          {/* Feature Badges - Desktop */}
-          <motion.div 
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="hidden lg:flex items-center gap-4 bg-white/80 backdrop-blur-sm rounded-2xl border border-bloom-rose/20 p-3 shadow-sm"
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <div className="text-center mb-12 lg:mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-bloom-rose/10 to-bloom-leaf/10 px-4 py-2 rounded-full border border-bloom-rose/20 mb-4"
           >
-            <div className="flex items-center gap-2 px-3 py-1.5">
-              <div className="rounded-full bg-bloom-rose/10 p-1.5">
-                <FiShoppingBag className="text-bloom-rose text-sm" />
-              </div>
-              <span className="text-sm font-medium text-bloom-ink">Fast Checkout</span>
-            </div>
-            <div className="w-px h-6 bg-bloom-rose/20" />
-            <div className="flex items-center gap-2 px-3 py-1.5">
-              <div className="rounded-full bg-bloom-rose/10 p-1.5">
-                <FiHeart className="text-bloom-rose text-sm" />
-              </div>
-              <span className="text-sm font-medium text-bloom-ink">Save Favorites</span>
-            </div>
-            <div className="w-px h-6 bg-bloom-rose/20" />
-            <div className="flex items-center gap-2 px-3 py-1.5">
-              <div className="rounded-full bg-bloom-rose/10 p-1.5">
-                <FiTruck className="text-bloom-rose text-sm" />
-              </div>
-              <span className="text-sm font-medium text-bloom-ink">Free Delivery</span>
-            </div>
+            <FiStar className="text-bloom-rose" />
+            <span className="text-sm font-medium text-bloom-ink/70">Handpicked for You</span>
           </motion.div>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-4xl md:text-5xl font-bold text-bloom-ink mb-4"
+          >
+            Featured{' '}
+            <span className="bg-gradient-to-r from-bloom-rose to-bloom-leaf bg-clip-text text-transparent">
+              Bouquets
+            </span>
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-lg text-bloom-ink/60 max-w-2xl mx-auto"
+          >
+            Handpicked favorites for gifting this week, crafted with love and premium blooms
+          </motion.p>
         </div>
 
-        {/* Feature Pills - Mobile/Tablet */}
-        <motion.div 
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="flex flex-wrap gap-2 mt-4 lg:hidden"
-        >
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-white/80 backdrop-blur-sm border border-bloom-rose/20 px-3 py-1.5 text-xs">
-            <FiShoppingBag className="text-bloom-rose" />
-            Fast Checkout
-          </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-white/80 backdrop-blur-sm border border-bloom-rose/20 px-3 py-1.5 text-xs">
-            <FiHeart className="text-bloom-rose" />
-            Save Favorites
-          </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-white/80 backdrop-blur-sm border border-bloom-rose/20 px-3 py-1.5 text-xs">
-            <FiTruck className="text-bloom-rose" />
-            Free Delivery
-          </span>
-        </motion.div>
-      </div>
-
-      {/* Notice/Toast Notification */}
-      <AnimatePresence mode="wait">
-        {notice ? (
-          <motion.div
-            key={notice.id}
-            initial={{ opacity: 0, y: -20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -20, scale: 0.95 }}
-            transition={{ duration: 0.2 }}
-            className="mb-6 relative"
-          >
-            <div className={`
-              inline-flex items-center gap-2 rounded-full 
-              ${notice.type === "cart" 
-                ? "bg-gradient-to-r from-bloom-rose/10 to-bloom-ink/10 border-bloom-rose/30" 
-                : "bg-gradient-to-r from-bloom-leaf/10 to-bloom-rose/10 border-bloom-leaf/30"
-              } 
-              border backdrop-blur-sm px-4 py-2.5 text-sm shadow-lg
-            `}>
-              <div className={`
-                rounded-full p-1
-                ${notice.type === "cart" ? "bg-bloom-rose/20" : "bg-bloom-leaf/20"}
-              `}>
-                {notice.type === "cart" ? (
-                  <FiShoppingBag className={notice.type === "cart" ? "text-bloom-rose" : "text-bloom-leaf"} />
-                ) : (
-                  <FiHeart className="text-bloom-leaf" />
-                )}
-              </div>
-              <span className="font-medium text-bloom-ink">{notice.message}</span>
-              <FiCheckCircle className={notice.type === "cart" ? "text-bloom-rose" : "text-bloom-leaf"} />
-            </div>
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
-
-      {/* Loading State */}
-      {isLoading && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-        >
-          <ProductGridSkeleton count={FEATURED_LIMIT} />
-        </motion.div>
-      )}
-
-      {/* Error State */}
-      {isError && (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="relative rounded-2xl border border-bloom-rose/20 bg-white/80 backdrop-blur-sm p-8 text-center shadow-lg"
-        >
-          <div className="max-w-md mx-auto">
-            <div className="inline-flex rounded-full bg-bloom-rose/10 p-3 mb-4">
-              <FiAward className="text-3xl text-bloom-rose/60" />
-            </div>
-            <h3 className="text-lg font-semibold text-bloom-ink mb-2">Unable to Load Products</h3>
-            <p className="text-sm text-bloom-ink/60 mb-6">
-              We couldn't fetch the featured products. Please try again.
-            </p>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              type="button"
-              onClick={() => void refetch()}
-              className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-bloom-rose to-bloom-ink px-6 py-3 text-sm font-medium text-white shadow-lg shadow-bloom-rose/30"
-            >
-              <FiClock />
-              Try Again
-            </motion.button>
-          </div>
-        </motion.div>
-      )}
-
-      {/* Products Grid */}
-      {!isLoading && !isError && (
+        {/* Category Tabs */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="flex justify-center gap-2 mb-8"
         >
-          <div className="grid gap-4 sm:gap-6 lg:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-            {featuredProducts.map((product, index) => (
-              <motion.div
-                key={product.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 * (index + 1) }}
-                whileHover={{ y: -4 }}
-                className="group"
-              >
-                <ProductCard
-                  product={product}
-                  onAddToCart={triggerCartAdd}
-                  onAddToWishlist={triggerWishlistAdd}
-                  isCartCoolingDown={Boolean(cartCooldownMap[product.id])}
-                  isWishlistCoolingDown={Boolean(wishlistCooldownMap[product.id])}
-                />
-              </motion.div>
-            ))}
-          </div>
+          {[
+            { id: "featured", label: "Featured", icon: FiStar },
+            { id: "popular", label: "Popular", icon: FiTrendingUp },
+            { id: "new", label: "New Arrivals", icon: FiClock }
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id as typeof activeTab)}
+              className={`
+                flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300
+                ${activeTab === tab.id 
+                  ? "bg-gradient-to-r from-bloom-rose to-bloom-leaf text-white shadow-lg shadow-bloom-rose/30" 
+                  : "bg-white/80 text-bloom-ink/60 hover:text-bloom-rose border border-bloom-rose/20"
+                }
+              `}
+            >
+              <tab.icon className={activeTab === tab.id ? "text-white" : ""} />
+              {tab.label}
+            </button>
+          ))}
+        </motion.div>
 
-          {/* View All Link */}
+        {/* Notice/Toast Notification */}
+        <AnimatePresence mode="wait">
+          {notice && (
+            <motion.div
+              key={notice.id}
+              initial={{ opacity: 0, y: -20, x: "-50%" }}
+              animate={{ opacity: 1, y: 0, x: "-50%" }}
+              exit={{ opacity: 0, y: -20, x: "-50%" }}
+              transition={{ duration: 0.2 }}
+              className="fixed top-24 left-1/2 z-50"
+            >
+              <div className={`
+                flex items-center gap-3 rounded-full px-4 py-2 shadow-xl
+                ${notice.type === "cart" 
+                  ? "bg-gradient-to-r from-bloom-rose to-bloom-ink text-white" 
+                  : "bg-gradient-to-r from-bloom-leaf to-bloom-rose text-white"
+                }
+              `}>
+                {notice.type === "cart" ? <FiShoppingBag /> : <FiHeart />}
+                <span className="text-sm font-medium">{notice.message}</span>
+                <FiCheckCircle />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Stats Bar */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="flex flex-wrap justify-center gap-6 mb-10 p-4 bg-white/50 rounded-2xl border border-bloom-rose/10"
+        >
+          {[
+            { icon: FiShoppingBag, label: "Fast Checkout", color: "rose" },
+            { icon: FiHeart, label: "Save Favorites", color: "leaf" },
+            { icon: FiTruck, label: "Free Delivery", color: "rose" },
+            { icon: FiClock, label: "Same Day", color: "leaf" }
+          ].map((stat, index) => (
+            <div key={index} className="flex items-center gap-2">
+              <div className={`p-1.5 rounded-full bg-bloom-${stat.color}/10`}>
+                <stat.icon className={`text-bloom-${stat.color}`} />
+              </div>
+              <span className="text-sm font-medium text-bloom-ink/70">{stat.label}</span>
+            </div>
+          ))}
+        </motion.div>
+
+        {/* Products Grid */}
+        {isLoading && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-            className="flex justify-center mt-8 sm:mt-10 lg:mt-12"
+            exit={{ opacity: 0 }}
           >
-            <motion.a
-              whileHover={{ scale: 1.05, x: 5 }}
-              whileTap={{ scale: 0.95 }}
-              href="/shop"
-              className="inline-flex items-center gap-2 text-sm font-medium text-bloom-rose hover:text-bloom-ink transition-colors group"
-            >
-              <span>View All Products</span>
-              <motion.span
-                animate={{ x: [0, 5, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                className="inline-block"
-              >
-                →
-              </motion.span>
-            </motion.a>
+            <ProductGridSkeleton count={FEATURED_LIMIT} />
           </motion.div>
-        </motion.div>
-      )}
+        )}
 
-      {/* Decorative Elements */}
-      <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 pointer-events-none opacity-20">
-        <svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M20 20L40 20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-bloom-rose"/>
-          <path d="M80 20L100 20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-bloom-rose"/>
-          <circle cx="60" cy="20" r="4" fill="currentColor" className="text-bloom-rose/30"/>
-        </svg>
+        {isError && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="relative rounded-2xl border border-bloom-rose/20 bg-white/80 backdrop-blur-sm p-12 text-center shadow-lg"
+          >
+            <div className="max-w-md mx-auto">
+              <div className="inline-flex rounded-full bg-bloom-rose/10 p-4 mb-4">
+                <FiAward className="text-4xl text-bloom-rose/60" />
+              </div>
+              <h3 className="text-xl font-semibold text-bloom-ink mb-2">Unable to Load Products</h3>
+              <p className="text-bloom-ink/60 mb-6">
+                We couldn't fetch the featured products. Please try again.
+              </p>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                type="button"
+                onClick={() => void refetch()}
+                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-bloom-rose to-bloom-leaf px-6 py-3 text-sm font-medium text-white shadow-lg"
+              >
+                <FiClock />
+                Try Again
+              </motion.button>
+            </div>
+          </motion.div>
+        )}
+
+        {!isLoading && !isError && (
+          <>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
+            >
+              {featuredProducts.map((product, index) => (
+                <motion.div
+                  key={product.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.1 * (index + 1) }}
+                  whileHover={{ y: -8 }}
+                  className="group relative"
+                >
+                  {/* Product Badge */}
+                  {index === 0 && (
+                    <div className="absolute -top-3 -right-3 z-10">
+                      <div className="relative">
+                        <div className="absolute inset-0 bg-gradient-to-r from-bloom-rose to-bloom-leaf rounded-full blur-md opacity-50" />
+                        <div className="relative bg-gradient-to-r from-bloom-rose to-bloom-leaf text-white text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
+                          <FiStar className="text-xs" />
+                          BESTSELLER
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  <ProductCard
+                    product={product}
+                    onAddToCart={triggerCartAdd}
+                    onAddToWishlist={triggerWishlistAdd}
+                    isCartCoolingDown={Boolean(cartCooldownMap[product.id])}
+                    isWishlistCoolingDown={Boolean(wishlistCooldownMap[product.id])}
+                  />
+                </motion.div>
+              ))}
+            </motion.div>
+
+            {/* View All & Benefits */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+              className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-4 p-6 bg-gradient-to-r from-bloom-rose/5 to-bloom-leaf/5 rounded-2xl border border-bloom-rose/10"
+            >
+              <div className="flex items-center gap-4">
+                <div className="flex -space-x-2">
+                  {[1,2,3].map((i) => (
+                    <div key={i} className="w-8 h-8 rounded-full bg-gradient-to-r from-bloom-rose to-bloom-leaf flex items-center justify-center text-white text-xs border-2 border-white">
+                      <FiHeart />
+                    </div>
+                  ))}
+                </div>
+                <p className="text-sm text-bloom-ink/70">
+                  <span className="font-semibold text-bloom-ink">2,500+</span> happy customers this week
+                </p>
+              </div>
+
+              <motion.a
+                whileHover={{ scale: 1.05, x: 5 }}
+                whileTap={{ scale: 0.95 }}
+                href="/shop"
+                className="group inline-flex items-center gap-2 text-sm font-medium text-bloom-rose hover:text-bloom-leaf transition-colors"
+              >
+                <span>View All Products</span>
+                <motion.span
+                  animate={{ x: [0, 5, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                  className="inline-block"
+                >
+                  <FiArrowRight />
+                </motion.span>
+              </motion.a>
+            </motion.div>
+          </>
+        )}
       </div>
     </section>
   );
