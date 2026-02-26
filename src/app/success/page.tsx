@@ -80,10 +80,10 @@ export default function SuccessPage(): JSX.Element {
             {/* Order Success Message */}
             <div className="mb-8 rounded-2xl bg-gradient-to-r from-bloom-leaf/10 to-emerald-500/10 p-6 text-center border border-bloom-leaf/20">
               <p className="text-lg text-bloom-ink/80">
-                <span className="font-semibold text-bloom-leaf">{receipt.customerName}</span>, we're preparing your order with love and care.
+                <span className="font-semibold text-bloom-leaf">{receipt.customerName}</span>, we&apos;re preparing your order with love and care.
               </p>
               <p className="mt-2 text-sm text-bloom-ink/60">
-                You'll receive a confirmation email shortly with your order details.
+                You&apos;ll receive a confirmation email shortly with your order details.
               </p>
             </div>
 
@@ -193,11 +193,11 @@ export default function SuccessPage(): JSX.Element {
 
                 {/* What's Next */}
                 <div className="mt-8">
-                  <h3 className="text-sm font-medium text-bloom-ink">What's next?</h3>
+                  <h3 className="text-sm font-medium text-bloom-ink">What&apos;s next?</h3>
                   <div className="mt-3 grid gap-3 sm:grid-cols-2">
                     <div className="flex items-start gap-2 text-xs text-bloom-ink/60">
                       <div className="mt-0.5 h-1.5 w-1.5 rounded-full bg-bloom-rose" />
-                      <p>You'll receive order confirmation via email</p>
+                      <p>You&apos;ll receive order confirmation via email</p>
                     </div>
                     <div className="flex items-start gap-2 text-xs text-bloom-ink/60">
                       <div className="mt-0.5 h-1.5 w-1.5 rounded-full bg-bloom-rose" />
@@ -205,7 +205,7 @@ export default function SuccessPage(): JSX.Element {
                     </div>
                     <div className="flex items-start gap-2 text-xs text-bloom-ink/60">
                       <div className="mt-0.5 h-1.5 w-1.5 rounded-full bg-bloom-rose" />
-                      <p>We'll notify you when it ships</p>
+                      <p>We&apos;ll notify you when it ships</p>
                     </div>
                     <div className="flex items-start gap-2 text-xs text-bloom-ink/60">
                       <div className="mt-0.5 h-1.5 w-1.5 rounded-full bg-bloom-rose" />
@@ -248,7 +248,7 @@ export default function SuccessPage(): JSX.Element {
               </div>
               <h2 className="mt-6 text-2xl font-semibold text-bloom-ink">No recent receipt found</h2>
               <p className="mt-2 text-bloom-ink/60">
-                We couldn't find any recent order receipt. Start shopping to place your first order.
+                We couldn&apos;t find any recent order receipt. Start shopping to place your first order.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Link

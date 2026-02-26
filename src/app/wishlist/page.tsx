@@ -47,7 +47,7 @@ export default function WishlistPage(): JSX.Element {
               </div>
               <h2 className="mt-6 text-2xl font-semibold text-bloom-ink">Your wishlist is empty</h2>
               <p className="mt-2 text-bloom-ink/60">
-                Save your favorite bouquets and they'll appear here for easy access.
+                Save your favorite bouquets and they&apos;ll appear here for easy access.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Link
@@ -76,7 +76,7 @@ export default function WishlistPage(): JSX.Element {
               </div>
               <button
                 onClick={() => {
-                  if (confirm('Remove all items from wishlist?')) {
+                  if (confirm("Remove all items from wishlist?")) {
                     items.forEach(item => removeItem(item.productId));
                   }
                 }}

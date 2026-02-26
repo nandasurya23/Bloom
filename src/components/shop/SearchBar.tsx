@@ -50,7 +50,7 @@ export function SearchBar({ value, onChange }: SearchBarProps): JSX.Element {
           animate={{ opacity: 1 }}
           className="absolute -bottom-5 left-4 text-xs text-bloom-ink/40"
         >
-          Searching for: "{value}"
+          Searching for: &quot;{value}&quot;
         </motion.div>
       )}
     </motion.div>

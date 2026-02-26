@@ -57,7 +57,7 @@ export function OrderCard({ order }: OrderCardProps): JSX.Element {
           Items ({order.items.length})
         </p>
         <ul className="space-y-2">
-          {order.items.map((item, index) => (
+          {order.items.map((item) => (
             <li 
               key={`${order.id}-${item.id}`} 
               className="flex items-center justify-between text-sm group-hover:bg-bloom-rose/5 -mx-1 px-1 py-0.5 rounded-lg transition-colors"

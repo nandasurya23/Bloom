@@ -181,7 +181,7 @@ export default function RegisterPage(): JSX.Element {
                     w-full rounded-xl border bg-white/90 pl-10 pr-4 py-3 text-sm text-bloom-ink
                     outline-none transition-all placeholder:text-bloom-ink/30
                     focus:border-bloom-rose focus:ring-2 focus:ring-bloom-rose/20
-                    ${errors.email ? 'border-red-300 bg-red-50/50' : 'border-bloom-rose/30'}
+                    ${errors.email ? "border-red-300 bg-red-50/50" : "border-bloom-rose/30"}
                   `}
                 />
               </div>
@@ -213,7 +213,7 @@ export default function RegisterPage(): JSX.Element {
                     w-full rounded-xl border bg-white/90 pl-10 pr-4 py-3 text-sm text-bloom-ink
                     outline-none transition-all placeholder:text-bloom-ink/30
                     focus:border-bloom-rose focus:ring-2 focus:ring-bloom-rose/20
-                    ${errors.password ? 'border-red-300 bg-red-50/50' : 'border-bloom-rose/30'}
+                    ${errors.password ? "border-red-300 bg-red-50/50" : "border-bloom-rose/30"}
                   `}
                 />
               </div>
@@ -245,7 +245,7 @@ export default function RegisterPage(): JSX.Element {
                     w-full rounded-xl border bg-white/90 pl-10 pr-4 py-3 text-sm text-bloom-ink
                     outline-none transition-all placeholder:text-bloom-ink/30
                     focus:border-bloom-rose focus:ring-2 focus:ring-bloom-rose/20
-                    ${errors.confirmPassword ? 'border-red-300 bg-red-50/50' : 'border-bloom-rose/30'}
+                    ${errors.confirmPassword ? "border-red-300 bg-red-50/50" : "border-bloom-rose/30"}
                   `}
                 />
               </div>

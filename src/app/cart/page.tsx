@@ -53,7 +53,7 @@ export default function CartPage(): JSX.Element {
               </div>
               <h2 className="mt-6 text-2xl font-semibold text-bloom-ink">Your cart is empty</h2>
               <p className="mt-2 text-bloom-ink/60">
-                Looks like you haven't added any flowers to your cart yet.
+                Looks like you haven&apos;t added any flowers to your cart yet.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Link

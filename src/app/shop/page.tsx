@@ -73,8 +73,8 @@ export default function ShopPage(): JSX.Element {
   
   const addItemToCart = useCartStore((state) => state.addItem);
   const addItemToWishlist = useWishlistStore((state) => state.addItem);
-  const cartCooldownTimeoutsRef = useRef<Record<string, number>>({});
-  const wishlistCooldownTimeoutsRef = useRef<Record<string, number>>({});
+  const cartCooldownTimeoutsRef = useRef<Record<string, ReturnType<typeof setTimeout>>>({});
+  const wishlistCooldownTimeoutsRef = useRef<Record<string, ReturnType<typeof setTimeout>>>({});
 
   const {
     data: rawProducts = [],
@@ -112,12 +112,12 @@ export default function ShopPage(): JSX.Element {
   useEffect(() => {
     setIsGridLoading(true);
 
-    const timeoutId = window.setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       setIsGridLoading(false);
     }, SKELETON_DELAY_MS);
 
     return () => {
-      window.clearTimeout(timeoutId);
+      clearTimeout(timeoutId);
     };
   }, [filters, debouncedQuery, currentPage]);
 
@@ -127,10 +127,10 @@ export default function ShopPage(): JSX.Element {
 
     return () => {
       Object.values(cartTimeouts).forEach((timeoutId) => {
-        window.clearTimeout(timeoutId);
+        clearTimeout(timeoutId);
       });
       Object.values(wishlistTimeouts).forEach((timeoutId) => {
-        window.clearTimeout(timeoutId);
+        clearTimeout(timeoutId);
       });
     };
   }, []);
@@ -146,7 +146,7 @@ export default function ShopPage(): JSX.Element {
       [product.id]: true
     }));
 
-    const timeoutId = window.setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       setCartCooldownMap((previous) => ({
         ...previous,
         [product.id]: false
@@ -168,7 +168,7 @@ export default function ShopPage(): JSX.Element {
       [product.id]: true
     }));
 
-    const timeoutId = window.setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       setWishlistCooldownMap((previous) => ({
         ...previous,
         [product.id]: false
@@ -264,44 +264,42 @@ export default function ShopPage(): JSX.Element {
         {/* Filter Panel - Desktop always visible, Mobile collapsible */}
         <section className="relative">
           <AnimatePresence mode="wait">
-            {(isFilterExpanded || window.innerWidth >= 1024) && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
-                className="overflow-hidden lg:overflow-visible"
-              >
-                <FilterPanel
-                  categories={categories}
-                  filters={filters}
-                  onCategoryChange={(category) =>
-                    setFilters((previous) => ({
-                      ...previous,
-                      category
-                    }))
-                  }
-                  onMinPriceChange={(value) =>
-                    setFilters((previous) => ({
-                      ...previous,
-                      priceRange: {
-                        ...previous.priceRange,
-                        min: value
-                      }
-                    }))
-                  }
-                  onMaxPriceChange={(value) =>
-                    setFilters((previous) => ({
-                      ...previous,
-                      priceRange: {
-                        ...previous.priceRange,
-                        max: value
-                      }
-                    }))
-                  }
-                />
-              </motion.div>
-            )}
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+              className={`overflow-hidden lg:block lg:overflow-visible ${isFilterExpanded ? "block" : "hidden"}`}
+            >
+              <FilterPanel
+                categories={categories}
+                filters={filters}
+                onCategoryChange={(category) =>
+                  setFilters((previous) => ({
+                    ...previous,
+                    category
+                  }))
+                }
+                onMinPriceChange={(value) =>
+                  setFilters((previous) => ({
+                    ...previous,
+                    priceRange: {
+                      ...previous.priceRange,
+                      min: value
+                    }
+                  }))
+                }
+                onMaxPriceChange={(value) =>
+                  setFilters((previous) => ({
+                    ...previous,
+                    priceRange: {
+                      ...previous.priceRange,
+                      max: value
+                    }
+                  }))
+                }
+              />
+            </motion.div>
           </AnimatePresence>
         </section>
 
@@ -341,7 +339,7 @@ export default function ShopPage(): JSX.Element {
               </div>
               <p className="mt-4 text-lg font-medium text-red-600">Failed to load products</p>
               <p className="mt-2 text-sm text-bloom-ink/60">
-                We couldn't load the products. Please try again.
+                We couldn&apos;t load the products. Please try again.
               </p>
               <button
                 type="button"
@@ -374,7 +372,7 @@ export default function ShopPage(): JSX.Element {
                   </div>
                   <h2 className="mt-6 text-2xl font-semibold text-bloom-ink">No products found</h2>
                   <p className="mt-2 text-bloom-ink/60">
-                    Try adjusting your filters or search query to find what you're looking for.
+                    Try adjusting your filters or search query to find what you&apos;re looking for.
                   </p>
                   <button
                     onClick={() => {
