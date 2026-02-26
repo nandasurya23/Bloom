@@ -5,10 +5,23 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import type { IconType } from "react-icons";
 import { FiHeart, FiShoppingBag, FiShoppingCart, FiMenu, FiX } from "react-icons/fi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import { useAuthStore } from "@/store/useAuthStore";
 
 export function Navbar(): JSX.Element {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const loadUserFromStorage = useAuthStore((state) => state.loadUserFromStorage);
+
+  useEffect(() => {
+    loadUserFromStorage();
+    setMounted(true);
+  }, [loadUserFromStorage]);
+
+  const authNavHref = isAuthenticated ? "/profile" : "/login";
+  const authNavText = isAuthenticated ? "Profile" : "Login";
 
   return (
     <header className="sticky top-0 z-50 border-b border-bloom-rose/20 bg-white/95 backdrop-blur-md shadow-sm">
@@ -29,6 +42,7 @@ export function Navbar(): JSX.Element {
           <NavLink href="/shop" icon={FiShoppingBag} text="Shop" />
           <NavLink href="/wishlist" icon={FiHeart} text="Wishlist" />
           <NavLink href="/cart" icon={FiShoppingCart} text="Cart" />
+          {mounted ? <NavLink href={authNavHref} icon={FiHeart} text={authNavText} /> : null}
         </nav>
 
         {/* Mobile Menu Button */}
@@ -65,6 +79,9 @@ export function Navbar(): JSX.Element {
               <MobileNavLink href="/shop" icon={FiShoppingBag} text="Shop" onClick={() => setIsMenuOpen(false)} />
               <MobileNavLink href="/wishlist" icon={FiHeart} text="Wishlist" onClick={() => setIsMenuOpen(false)} />
               <MobileNavLink href="/cart" icon={FiShoppingCart} text="Cart" onClick={() => setIsMenuOpen(false)} />
+              {mounted ? (
+                <MobileNavLink href={authNavHref} icon={FiHeart} text={authNavText} onClick={() => setIsMenuOpen(false)} />
+              ) : null}
             </motion.div>
           </motion.div>
         )}
